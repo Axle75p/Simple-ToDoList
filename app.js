@@ -6,9 +6,9 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 app.set('view engine', 'ejs');
 
-    
+let items=[]; //globally?
 
-
+//--app.get start
 app.get('/', (req, res) => {
  
     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -16,14 +16,14 @@ app.get('/', (req, res) => {
     let currentDate = today.toLocaleDateString("en-US", options);
     console.log(currentDate);
 
-    res.render("index.ejs", {currentDate: currentDate});
-
+    res.render("index.ejs", {currentDate: currentDate,itemList: items});
 });
-
-
+//--app.get end
+//--app.post start
 app.post('/', function(sReq, sRes){    
-    var email = sReq.body.email;
-    console.log(email);   
+    let newItem = sReq.body.newItem; //get data from form
+    items.push(newItem); //
+    sRes.redirect("/");
 });
-
+//--app.post end
 app.listen(3000, () => console.log('app listening on port 3000!'));
